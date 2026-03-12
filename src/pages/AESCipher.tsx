@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import CryptoJS from 'crypto-js';
+
 type KeySize = 128 | 192 | 256;
+
 export const AESCipher: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [input, setInput] = useState('Hello World');
@@ -11,6 +13,7 @@ export const AESCipher: React.FC = () => {
   const [mode, setMode] = useState<'encrypt' | 'decrypt'>('encrypt');
   const [showSteps, setShowSteps] = useState(false);
   const [currentRound, setCurrentRound] = useState(0);
+
   const getRounds = (size: KeySize) => {
     switch (size) {
       case 128: return 10;
@@ -18,7 +21,9 @@ export const AESCipher: React.FC = () => {
       case 256: return 14;
     }
   };
+
   const rounds = getRounds(keySize);
+
   // Generate a key of proper length based on key size
   const generateKey = (passphrase: string, size: KeySize): CryptoJS.lib.WordArray => {
     const keyBytes = size / 8;
@@ -27,6 +32,7 @@ export const AESCipher: React.FC = () => {
       iterations: 1000
     });
   };
+
   const handleEncrypt = () => {
     try {
       const derivedKey = generateKey(key, keySize);
@@ -43,6 +49,7 @@ export const AESCipher: React.FC = () => {
       setOutput('Encryption failed');
     }
   };
+
   const handleDecrypt = () => {
     try {
       const derivedKey = generateKey(key, keySize);
@@ -61,15 +68,18 @@ export const AESCipher: React.FC = () => {
       setOutput('Decryption failed - invalid key or ciphertext');
     }
   };
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(output);
   };
+
   const roundSteps = [
     { name: 'SubBytes', desc: 'Non-linear byte substitution using S-box lookup table', icon: '🔄' },
     { name: 'ShiftRows', desc: 'Cyclically shift rows of the state matrix', icon: '↔️' },
     { name: 'MixColumns', desc: 'Mix data within each column (skipped in final round)', icon: '🔀' },
     { name: 'AddRoundKey', desc: 'XOR state with round subkey', icon: '🔑' }
   ];
+
   return (
     <div className="space-y-6">
       {/* Educational Content */}
@@ -112,11 +122,13 @@ export const AESCipher: React.FC = () => {
           </div>
         </div>
       </div>
+
       {/* Interactive Tool */}
       <div className={`rounded-2xl shadow-xl p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           🔐 AES Encryption Tool
         </h3>
+
         {/* Key Size Selection */}
         <div className="mb-6">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -141,6 +153,7 @@ export const AESCipher: React.FC = () => {
             ))}
           </div>
         </div>
+
         {/* Mode Selection */}
         <div className="flex gap-2 mb-4">
           <button
@@ -164,6 +177,7 @@ export const AESCipher: React.FC = () => {
             🔓 Decrypt
           </button>
         </div>
+
         {/* Input */}
         <div className="mb-4">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -179,6 +193,7 @@ export const AESCipher: React.FC = () => {
             placeholder={mode === 'encrypt' ? 'Enter text to encrypt...' : 'Enter ciphertext to decrypt...'}
           />
         </div>
+
         {/* Key Input */}
         <div className="mb-4">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -197,6 +212,7 @@ export const AESCipher: React.FC = () => {
             Key is derived using PBKDF2 to create a {keySize}-bit key
           </p>
         </div>
+
         {/* Process Button */}
         <button
           onClick={mode === 'encrypt' ? handleEncrypt : handleDecrypt}
@@ -204,6 +220,7 @@ export const AESCipher: React.FC = () => {
         >
           {mode === 'encrypt' ? '🔒 Encrypt with AES-' + keySize : '🔓 Decrypt with AES-' + keySize}
         </button>
+
         {/* Output */}
         {output && (
           <div className="mt-6">
@@ -228,6 +245,7 @@ export const AESCipher: React.FC = () => {
           </div>
         )}
       </div>
+
       {/* Round Visualization */}
       <div className={`rounded-2xl shadow-xl p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="flex justify-between items-center mb-4">
@@ -243,6 +261,7 @@ export const AESCipher: React.FC = () => {
             {showSteps ? 'Hide Details' : 'Show Round Details'}
           </button>
         </div>
+
         {/* Round Progress Bar */}
         <div className="mb-6">
           <div className="flex items-center gap-1 mb-2">
@@ -278,6 +297,7 @@ export const AESCipher: React.FC = () => {
             Click on a round number to see details
           </p>
         </div>
+
         {showSteps && (
           <div className="space-y-4">
             <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-gray-700' : 'bg-indigo-50'}`}>
@@ -306,6 +326,7 @@ export const AESCipher: React.FC = () => {
                 ))}
               </div>
             </div>
+
             {/* State Matrix Visualization */}
             <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-gray-700' : 'bg-purple-50'}`}>
               <h4 className={`font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -332,6 +353,7 @@ export const AESCipher: React.FC = () => {
           </div>
         )}
       </div>
+
       {/* Security Note */}
       <div className={`rounded-2xl shadow-xl p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
