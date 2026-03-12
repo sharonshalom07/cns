@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import CryptoJS from 'crypto-js';
+
 export const DESCipher: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [input, setInput] = useState('Hello World');
@@ -10,7 +11,9 @@ export const DESCipher: React.FC = () => {
   const [showSteps, setShowSteps] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
   const [useTrippleDES, setUseTrippleDES] = useState(false);
+
   const TOTAL_ROUNDS = 16;
+
   const handleEncrypt = () => {
     try {
       if (useTrippleDES) {
@@ -24,6 +27,7 @@ export const DESCipher: React.FC = () => {
       setOutput('Encryption failed');
     }
   };
+
   const handleDecrypt = () => {
     try {
       if (useTrippleDES) {
@@ -39,9 +43,11 @@ export const DESCipher: React.FC = () => {
       setOutput('Decryption failed - invalid key or ciphertext');
     }
   };
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(output);
   };
+
   const feistelSteps = [
     { name: 'Expansion (E)', bits: '32→48', desc: 'Expand right half using E-box', color: 'blue' },
     { name: 'Key XOR', bits: '48 bits', desc: 'XOR with 48-bit round subkey', color: 'yellow' },
@@ -50,6 +56,7 @@ export const DESCipher: React.FC = () => {
     { name: 'XOR with Left', bits: '32 bits', desc: 'XOR result with left half', color: 'red' },
     { name: 'Swap Halves', bits: '64 bits', desc: 'Swap left and right for next round', color: 'indigo' },
   ];
+
   return (
     <div className="space-y-6">
       {/* Educational Content */}
@@ -71,6 +78,7 @@ export const DESCipher: React.FC = () => {
               Its 56-bit key can be brute-forced in hours using modern hardware. Use AES for real-world encryption.
             </p>
           </div>
+
           <div className="grid md:grid-cols-3 gap-4">
             <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-gray-700' : 'bg-indigo-50'}`}>
               <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>📐 Structure</h4>
@@ -90,6 +98,7 @@ export const DESCipher: React.FC = () => {
                 <li>Derived through shifts & permutations</li>
               </ul>
             </div>
+
             <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-gray-700' : 'bg-green-50'}`}>
               <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>🔄 Triple DES (3DES)</h4>
               <ul className="list-disc list-inside space-y-1 text-sm">
@@ -101,11 +110,13 @@ export const DESCipher: React.FC = () => {
           </div>
         </div>
       </div>
+
       {/* Interactive Tool */}
       <div className={`rounded-2xl shadow-xl p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           🔐 DES Encryption Tool
         </h3>
+
         {/* DES vs 3DES Selection */}
         <div className="mb-6">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -140,6 +151,7 @@ export const DESCipher: React.FC = () => {
             </button>
           </div>
         </div>
+
         {/* Mode Selection */}
         <div className="flex gap-2 mb-4">
           <button
@@ -163,6 +175,7 @@ export const DESCipher: React.FC = () => {
             🔓 Decrypt
           </button>
         </div>
+
         {/* Input */}
         <div className="mb-4">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -178,6 +191,7 @@ export const DESCipher: React.FC = () => {
             placeholder={mode === 'encrypt' ? 'Enter text to encrypt...' : 'Enter ciphertext to decrypt...'}
           />
         </div>
+
         {/* Key Input */}
         <div className="mb-4">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -193,6 +207,7 @@ export const DESCipher: React.FC = () => {
             placeholder="Enter your secret key"
           />
         </div>
+
         {/* Process Button */}
         <button
           onClick={mode === 'encrypt' ? handleEncrypt : handleDecrypt}
@@ -203,6 +218,7 @@ export const DESCipher: React.FC = () => {
             : `🔓 Decrypt with ${useTrippleDES ? '3DES (48 rounds)' : 'DES (16 rounds)'}`
           }
         </button>
+
         {/* Output */}
         {output && (
           <div className="mt-6">
@@ -227,6 +243,7 @@ export const DESCipher: React.FC = () => {
           </div>
         )}
       </div>
+
       {/* Round Visualization */}
       <div className={`rounded-2xl shadow-xl p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="flex justify-between items-center mb-4">
@@ -242,6 +259,7 @@ export const DESCipher: React.FC = () => {
             {showSteps ? 'Hide Details' : 'Show Round Details'}
           </button>
         </div>
+
         {/* Round Selector */}
         <div className="mb-6">
           <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -282,6 +300,7 @@ export const DESCipher: React.FC = () => {
             ))}
           </div>
         </div>
+
         {showSteps && (
           <div className="space-y-4">
             {/* Feistel Round Diagram */}
@@ -344,6 +363,7 @@ export const DESCipher: React.FC = () => {
                 </div>
               </div>
             </div>
+
             {/* Step Details */}
             <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-gray-700' : 'bg-indigo-50'}`}>
               <h4 className={`font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -383,6 +403,7 @@ export const DESCipher: React.FC = () => {
                 ))}
               </div>
             </div>
+
             {/* S-Box Info */}
             <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-gray-700' : 'bg-purple-50'}`}>
               <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
