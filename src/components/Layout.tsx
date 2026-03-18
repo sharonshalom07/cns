@@ -15,7 +15,8 @@ import {
   Columns,
   Binary,
   Cpu,
-  KeyRound
+  KeyRound,
+  Users // NEW ICON
 } from 'lucide-react';
 
 const navItems = [
@@ -29,8 +30,10 @@ const navItems = [
   { path: '/aes', label: 'AES', icon: Binary },
   { path: '/des', label: 'DES', icon: Cpu },
   { path: '/rsa', label: 'RSA', icon: KeyRound },
+  { path: '/diffie-hellman', label: 'Diffie-Hellman', icon: Users }, // NEW
 ];
 
+// ... rest of the Layout component remains the same
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme();

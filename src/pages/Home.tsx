@@ -90,6 +90,14 @@ const ciphers = [
     description: 'Public-key cryptosystem for secure data transmission.',
     type: 'Asymmetric'
   },
+    {
+    path: '/diffie-hellman',
+    name: 'Diffie-Hellman',
+    icon: Users,
+    color: 'from-emerald-500 to-teal-500',
+    description: 'Secure key exchange over insecure channels.',
+    type: 'Key Exchange'
+  },
 ];
 
 export const Home: React.FC = () => {
@@ -168,7 +176,18 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </div>
-
+        {/* Key Exchange */}
+        <div>
+          <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <span className="w-3 h-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500"></span>
+            Key Exchange Protocols
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ciphers.filter(c => c.type === 'Key Exchange').map(cipher => (
+              <CipherCard key={cipher.path} {...cipher} isDarkMode={isDarkMode} />
+            ))}
+          </div>
+        </div>
       {/* Info Section */}
       <div className={`rounded-3xl p-8 ${isDarkMode ? 'bg-gray-800' : 'bg-gradient-to-r from-indigo-600 to-purple-600'} shadow-xl`}>
         <h2 className="text-2xl font-bold text-white mb-4">🎓 How to Use CryptoLearn</h2>

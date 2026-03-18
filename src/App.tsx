@@ -11,6 +11,7 @@ import { ColumnarCipher } from './pages/ColumnarCipher';
 import { AESCipher } from './pages/AESCipher';
 import { DESCipher } from './pages/DESCipher';
 import { RSACipher } from './pages/RSACipher';
+import { DiffieHellman } from './pages/DiffieHellman'; // NEW
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/aes" element={<AESCipher />} />
             <Route path="/des" element={<DESCipher />} />
             <Route path="/rsa" element={<RSACipher />} />
+            <Route path="/diffie-hellman" element={<DiffieHellman />} /> {/* NEW */}
           </Routes>
         </Layout>
       </Router>
