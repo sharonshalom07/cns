@@ -14,7 +14,8 @@ import {
   ArrowRight,
   BookOpen,
   Sparkles,
-  GraduationCap
+  GraduationCap,
+  Users // <-- add this here
 } from 'lucide-react';
 
 const ciphers = [
